@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "Grpc_Api";
+
+package author;
+
+service Author {
+
+  rpc GetAuthors (AllAuthorRequest) returns (AllAuthorReply);
+}
+
+message AuthorRequest {
+  int32 authorId = 1;
+}
+
+message AuthorReply {
+  int32 authorId = 1;
+  string fullName = 2;
+}
+
+message AllAuthorRequest {
+}
+
+message AllAuthorReply {
+  repeated AuthorReply authors = 1;
+}
