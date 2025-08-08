@@ -16,7 +16,7 @@ namespace Web_Api_Controllers.Controllers
         [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorDto))]
-        public async Task<ActionResult<AuthorDto>> Get()
+        public async Task<ActionResult<IEnumerable<AuthorDto>>> Get()
         {
             var authors = await MockStorage.GetAuthorList();
             return Ok(authors);

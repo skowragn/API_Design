@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net.Mime;
 using Web_Api_Controllers.Data;
 using Web_Api_Controllers.DTOs.Book;
@@ -32,14 +33,14 @@ namespace Web_Api_Controllers.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CreateCartDto>> Post(int cartId, [FromBody] CreateCartDto cartDto)
+        public async Task<ActionResult<CreateCartDto>> Post(int cartId, [FromBody] IEnumerable<CartItemDto> cartItems)
         {
-            if (cartDto == null)
+            if (cartItems == null || !cartItems.Any())
             {
                 return BadRequest();
             }
 
-            await MockStorage.AddCart(cartDto);
+            var cartDto = await MockStorage.AddItemsToCart(cartId,cartItems);
 
             return CreatedAtAction(nameof(Get), new CreateCartDto() { CartId = cartId }, cartDto);
         }

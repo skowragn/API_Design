@@ -208,21 +208,28 @@ public class MockStorage
 
     }
 
-    public async static Task AddCart(CreateCartDto cart)
+    public async static Task<CartDto> AddItemsToCart(int cartId,IEnumerable<CartItemDto> items)
     {
-        var newCart = new CartDto
+        var existedCart = _carts.FirstOrDefault(c => c.CartId == cartId);
+        var existedCartIndex = _carts.FindIndex(c => c.CartId == cartId);
+
+        if (existedCart != null)
         {
-            CartId = cart.CartId,
-            UserId = cart.UserId,
-            Items = cart.Items.Select(item => new CartItemDto
+            existedCart.Items.ToList().AddRange(items);
+            _carts[existedCartIndex] = existedCart;
+            return _carts[existedCartIndex];
+        }
+        else
+        {
+            var newCart = new CartDto
             {
-                CartItemId = item.CartItemId,
-                Book = item.Book,
-                Quantity = item.Quantity,
-                Price = item.Price
-            }).ToList()
-        };
-        _carts.Add(newCart);
+                CartId = cartId,
+                UserId = "new User",
+                Items = items.ToList()
+            };
+            _carts.Add(newCart);
+            return newCart;
+        }
     }
 
     public async static Task<int> GetCartIndexById(int id)
