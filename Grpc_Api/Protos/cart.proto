@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option csharp_namespace = "Grpc_Api";
+
+package cart;
+
+service Cart {
+
+ rpc GetCartById (CartRequest) returns (CartReply);
+ rpc CreateCart (CreateCartRequest) returns (CreateCartReply);
+ rpc DeleteCartById(CartRequest) returns (CartReply);
+ rpc DeleteCartItemByIndex(DeleteCartItemRequest) returns (CartReply);
+}
+
+message CartRequest {
+  int32 cartId = 1;
+}
+
+message CartReply {
+  int32 cartId = 1;
+  string userId = 2;
+  repeated CartItemReply Items = 3; 
+}
+
+message CartItemReply
+{
+   int32 cartItemId = 1;    
+   CartBookTypeReply Book = 2;
+   int32 Quantity = 3;
+   double Price = 4;
+}
+
+message CartBookTypeReply {
+  int32 bookId = 1;
+  string isbn = 2;
+  string title = 3;
+  string description = 4;
+  repeated CartAuthorTypeReply authors = 5;
+}
+
+message CartAuthorTypeReply {
+  int32 authorId = 1;
+  string fullName = 2;
+}
+
+message CreateCartRequest {
+  string userId = 2;
+  repeated CartItemReply Items = 3; 
+}
+
+message CreateCartReply {
+  int32 cartId = 1;
+  string userId = 2;
+  repeated CartItemReply Items = 3; 
+}
+
+message DeleteCartItemRequest {
+  int32 cartId = 1;
+  int32 cartItemId = 2;
+}

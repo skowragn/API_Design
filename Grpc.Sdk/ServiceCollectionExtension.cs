@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Grpc_Api;
+using Grpc.Sdk.Interfaces;
+using Grpc.Sdk.Services;
 
 
 namespace Grpc.Sdk;
@@ -21,6 +23,13 @@ public static class ServiceCollectionExtension
         });
 
         services.AddScoped<IAuthorGrpcService, AuthorGrpcService>();
+
+        services.AddGrpcClient<Cart.CartClient>(client =>
+        {
+            client.Address = new Uri("https://localhost:7067");
+        });
+
+        services.AddScoped<ICartGrpcService, CartGrpcService>();
     }
 
 }

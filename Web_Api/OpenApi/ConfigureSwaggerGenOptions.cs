@@ -14,7 +14,7 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider apiVersio
         {
             var openApiInfo = new OpenApiInfo()
             {
-                Title = $"Bookstore.Api v{description.ApiVersion}",
+                Title = $"REST.Minimal Api v{description.ApiVersion}",
                 Version = description.ApiVersion.ToString(),
             };
 

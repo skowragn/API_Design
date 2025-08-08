@@ -27,8 +27,6 @@ public static class EndpointsExtensions
     private static void AddSwagger(IServiceCollection services)
     {
         services.AddSwaggerGen();
-        //services.ConfigureOptions<ConfigureSwaggerGenOptions>();
-
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>();
     }
 

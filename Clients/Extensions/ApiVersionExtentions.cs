@@ -15,6 +15,7 @@ public static class ApiVersioningExtensions
             options.ApiVersionReader = ApiVersionReader.Combine(
                                         new UrlSegmentApiVersionReader(),
                                         new HeaderApiVersionReader("X-Api-Version"));
+
         })
         .AddApiExplorer(options =>
         {

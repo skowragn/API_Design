@@ -18,7 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="C:\Proj\APIDesign\Grpc_Api\Protos\book.proto" GrpcServices="Client" />
-        <Protobuf Include="C:\Proj\APIDesign\Grpc_Api\Protos\author.proto" GrpcServices="Client" />
+        <Protobuf Include="..\Grpc_Api\Protos\book.proto" GrpcServices="Client" />
+        <Protobuf Include="..\Grpc_Api\Protos\author.proto" GrpcServices="Client" />
+        <Protobuf Include="..\Grpc_Api\Protos\cart.proto" GrpcServices="Client" />
     </ItemGroup>
 </Project>

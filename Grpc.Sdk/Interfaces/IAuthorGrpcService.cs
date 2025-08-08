@@ -1,6 +1,6 @@
 ﻿using Grpc_Api;
 
-namespace Grpc.Sdk;
+namespace Grpc.Sdk.Interfaces;
 
 public interface IAuthorGrpcService
 {

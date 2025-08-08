@@ -1,14 +1,15 @@
 ﻿using Asp.Versioning;
 using Clients.Mappers;
-using Grpc.Sdk;
 using Grpc.Sdk.DTOs;
+using Grpc.Sdk.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
 namespace Clients.Controllers;
 
 [ApiVersion(1)]
-[Route("api/v{version:apiVersion}/grpc/authors")]
+[ApiVersion(2)]
+[Route("api/grpcClient/v{version:apiVersion}/authors")]
 [ApiController]
 public class AuthorGrpcClientController : ControllerBase
 {

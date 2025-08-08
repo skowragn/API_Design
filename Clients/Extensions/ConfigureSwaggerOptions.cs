@@ -24,9 +24,9 @@ namespace Clients.Extensions
         {
             var info = new OpenApiInfo
             {
-                Title = "API Title",
+                Title = "Grpc Api Client",
                 Version = description.ApiVersion.ToString(),
-                Description = "API Description. This API version has been deprecated."
+                Description = "Rest Api Client for Grpc Api"
             };
             return info;
         }

@@ -24,9 +24,9 @@ namespace Web_Api_Controllers.Extensions
         {
             var info = new OpenApiInfo
             {
-                Title = "API Title",
+                Title = "Rest API",
                 Version = description.ApiVersion.ToString(),
-                Description = "API Description. This API version has been deprecated."
+                Description = "Rest API with MVC (controllers)."
             };
             return info;
         }

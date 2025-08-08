@@ -6,7 +6,6 @@ public class BookService : Book.BookBase
 {
     private readonly ILogger<BookService> _logger;
     private static readonly List<AuthorTypeReply> _authorItems = [];
-    private readonly BookReply _bookReply;
     private static readonly List<BookReply> _allBookReply = [];
     private static readonly AllBookReply _allBooks = new();
 
@@ -19,7 +18,14 @@ public class BookService : Book.BookBase
     public override Task<BookReply> GetBookById(BookRequest request, ServerCallContext context)
     {
         _logger.LogInformation("Get Book with id:{ID}", request.BookId);
-        return Task.FromResult(_bookReply);
+        var bookToReply = _allBooks.Books.FirstOrDefault(b => b.BookId == request.BookId);
+
+        if (bookToReply == null)
+        {
+            _logger.LogWarning("Book with id:{ID} not found", request.BookId);
+            throw new RpcException(new Status(StatusCode.NotFound, $"Cart with id {request.BookId} not found"));
+        }
+        return Task.FromResult(bookToReply);
     }
 
     public override Task<AllBookReply> GetBooks(AllBookRequest request, ServerCallContext context)
@@ -33,6 +39,8 @@ public class BookService : Book.BookBase
         _logger.LogInformation("Delete book with id:{ID}", request.BookId);
 
          var bookToDelete = _allBooks.Books.FirstOrDefault(b => b.BookId == request.BookId);
+
+        _allBooks.Books.Remove(bookToDelete);
 
         return Task.FromResult(bookToDelete);
 

@@ -1,14 +1,15 @@
 ﻿using Asp.Versioning;
 using Clients.Mappers;
-using Grpc.Sdk;
 using Grpc.Sdk.DTOs;
+using Grpc.Sdk.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
 namespace Clients.Controllers
 {
     [ApiVersion(1)]
-    [Route("api/v{version:apiVersion}/grpc/books")]
+    [ApiVersion(2)]
+    [Route("api/grpcClient/v{version:apiVersion}/books")]
     [ApiController]
     public class BookGrpcClientController : ControllerBase
     {
@@ -20,6 +21,7 @@ namespace Clients.Controllers
 
         // GET: api/books  200OK
         [MapToApiVersion(1)]
+        [MapToApiVersion(2)]
         [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BookRestResponses>))]
@@ -39,6 +41,7 @@ namespace Clients.Controllers
 
         // GET books/{bookId}   200OK, 404NotFound
        [MapToApiVersion(1)]
+       [MapToApiVersion(2)]
        [HttpGet("{bookId}")]
        [Consumes(MediaTypeNames.Application.Json)]
        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookRestResponses))]

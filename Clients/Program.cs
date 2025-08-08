@@ -3,11 +3,11 @@ using Grpc.Sdk;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddGrpcSdk();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddGrpcSdk();
 
 builder.Services.AddVersioning();
 builder.Services.AddSwaggerConfiguration();

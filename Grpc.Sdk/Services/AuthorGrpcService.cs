@@ -1,8 +1,9 @@
 ﻿using Grpc.Core;
+using Grpc.Sdk.Interfaces;
 using Grpc_Api;
 
 
-namespace Grpc.Sdk;
+namespace Grpc.Sdk.Services;
 
 public class AuthorGrpcService : IAuthorGrpcService
 {
