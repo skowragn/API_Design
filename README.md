@@ -75,7 +75,152 @@
 <img width="945" height="531" alt="image" src="https://github.com/user-attachments/assets/97653fc4-20e4-4d13-b443-1def806b4de1" />
 <img width="945" height="74" alt="image" src="https://github.com/user-attachments/assets/0f100b33-b4ad-4b48-a822-522253e778d5" />
 
+### 2. Grpc API Design Process
 
+| Operation Name | Request | Response |
+| --- | --- |--- |
+|listBooks()|**GetBooks (AllBookRequest)** - List all books| **AllBookReply** – **Books[]** or **google.rpc.Status + ProblemDetails**|
+|viewbook()|**GetBookById (BookRequest)** - bookId| **BookReply** – **Book** or **google.rpc.Status + ProblemDetails**|
+|addBook()|**CreateBooks (CreateBookRequest)** - new Book| **CreateBookReply** – **Book with new Id** or **google.rpc.Status + ProblemDetails**|
+|deleteBook()|**DeleteBookById (BookRequest)** - bookId| **BookReply** – **deleted Book info** or **google.rpc.Status + ProblemDetails**|
+||||
+|listAuthors()|**GetAuthors (AllAuthorRequest)** - List all authors| **AllAuthorReply** – **Authors[]** or **google.rpc.Status + ProblemDetails**|
+||||
+|viewCart()|**GetCartById (CartRequest)** - cartId| **CartReply** – **Cart** or **google.rpc.Status + ProblemDetails**|
+|addCart()|**CreateCart (CreateCartRequest)** - new Cart| **CreateCartReply** – **Cart with new Id** or **google.rpc.Status + ProblemDetails**|
+|deleteCart()|**DeleteCartById (CartRequest)** - cartId| **CartReply** – **deleted Cart info** or **google.rpc.Status + ProblemDetails**|
+|deleteBookInCartUser()|**DeleteCartItemByIndex (DeleteCartItemRequest)** - cartId, cartItemId| **CartReply** – **updated Cart** or **google.rpc.Status + ProblemDetails**|
+
+book.proto3
+```
+service Book {
+
+ rpc GetBooks (AllBookRequest) returns (AllBookReply); 
+ rpc GetBookById (BookRequest) returns (BookReply);
+ rpc CreateBook (CreateBookRequest) returns (CreateBookReply);
+ rpc DeleteBookById(BookRequest) returns (BookReply);
+}
+
+message BookRequest {
+  int32 bookId = 1;
+}
+
+message BookReply {
+  int32 bookId = 1;
+  string isbn = 2;
+  string title = 3;
+  string description = 4;
+  repeated AuthorTypeReply authors = 5;
+}
+
+message AuthorTypeReply {
+  int32 authorId = 1;
+  string fullName = 2;
+}
+
+message AllBookRequest {
+}
+
+message AllBookReply {
+  repeated BookReply books = 1;
+}
+
+message CreateBookReply {
+  int32 bookId = 1;
+  string isbn = 2;
+  string title = 3;
+  string description = 4;
+  repeated AuthorTypeReply authors = 5;
+}
+
+message CreateBookRequest {
+  string isbn = 1;
+  string title = 2;
+  string description = 3;
+  repeated AuthorTypeReply authors = 4;
+}
+
+```
+author.proto3
+```
+service Author {
+
+  rpc GetAuthors (AllAuthorRequest) returns (AllAuthorReply);
+}
+
+message AuthorRequest {
+  int32 authorId = 1;
+}
+
+message AuthorReply {
+  int32 authorId = 1;
+  string fullName = 2;
+}
+
+message AllAuthorRequest {
+}
+
+message AllAuthorReply {
+  repeated AuthorReply authors = 1;
+}
+```
+cart.proto3
+```
+service Cart {
+
+ rpc GetCartById (CartRequest) returns (CartReply);
+ rpc CreateCart (CreateCartRequest) returns (CreateCartReply);
+ rpc DeleteCartById(CartRequest) returns (CartReply);
+ rpc DeleteCartItemByIndex(DeleteCartItemRequest) returns (CartReply);
+}
+
+message CartRequest {
+  int32 cartId = 1;
+}
+
+message CartReply {
+  int32 cartId = 1;
+  string userId = 2;
+  repeated CartItemReply Items = 3; 
+}
+
+message CartItemReply
+{
+   int32 cartItemId = 1;    
+   CartBookTypeReply Book = 2;
+   int32 Quantity = 3;
+   double Price = 4;
+}
+
+message CartBookTypeReply {
+  int32 bookId = 1;
+  string isbn = 2;
+  string title = 3;
+  string description = 4;
+  repeated CartAuthorTypeReply authors = 5;
+}
+
+message CartAuthorTypeReply {
+  int32 authorId = 1;
+  string fullName = 2;
+}
+
+message CreateCartRequest {
+  string userId = 2;
+  repeated CartItemReply Items = 3; 
+}
+
+message CreateCartReply {
+  int32 cartId = 1;
+  string userId = 2;
+  repeated CartItemReply Items = 3; 
+}
+
+message DeleteCartItemRequest {
+  int32 cartId = 1;
+  int32 cartItemId = 2;
+}
+```
 ## REST Client and gRpc API (ASP.NET Core 8 gRPC service)
 
 <img width="945" height="534" alt="image" src="https://github.com/user-attachments/assets/7429a190-bce4-418f-8f54-3cfa23f9955f" />
